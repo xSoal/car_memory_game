@@ -2,7 +2,8 @@
   <div class="startPage">
     <div class="startPage__inner">
       <div class="countCont">
-        размер поля <input type="number" v-model="boardSizeLocal" step="2" min="2" max="15" @change="onChange" >
+        размер поля
+        <Input @change="onChangeHandler" :boardSize="boardSizeLocal" />
       </div>
       <div class="buttonCont">
         <button @click="$emit('go')">Go</button>
@@ -12,8 +13,12 @@
 </template>
 
 <script>
+import Input from "@/components/Input";
 export default {
   name: "StartPage",
+  components: {
+    Input
+  },
   props: ['boardSize'],
   computed: {
     boardSizeLocal: {
@@ -27,17 +32,14 @@ export default {
   },
 
   methods: {
-    onChange(){
-      if(this.boardSizeLocal < 2){
-        this.boardSizeLocal = 2
+    onChangeHandler(newValue){
+      if(newValue < 2){
+        newValue = 2
       }
-      if(this.boardSizeLocal > 15){
-        this.boardSizeLocal = 15;
+      if(newValue > 15){
+        newValue = 15;
       }
-
-      if(this.boardSizeLocal % 2 === 1){
-        this.boardSizeLocal = ++this.boardSizeLocal;
-      }
+      this.boardSizeLocal = parseInt(newValue);
     }
   }
 
@@ -70,19 +72,6 @@ export default {
 
 
 
-.countCont input {
-  width: 100%;
-  max-width: 50px;
-  display: block;
-  margin: 15px auto;
-  background-color: #71266E;
-  outline: none;
-  border: none;
-  border-bottom: 1px solid;
-  font-size: 24px;
-  text-align: center;
-  padding-left: 15px;
-}
 
 button {
   margin: auto;
